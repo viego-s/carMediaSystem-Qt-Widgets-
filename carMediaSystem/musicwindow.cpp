@@ -22,11 +22,18 @@ MusicWindow::MusicWindow(QWidget *parent)
     ui->setupUi(this);
     ui->btn_play->setProperty("mode","pause");
     this->player=new QMediaPlayer;
-    this->playlist=new QMediaPlaylist;
+    this->playlist=new QMediaPlaylist;//初始化本地播放列表
+    this->onlinePlaylist = new QMediaPlaylist;  // 初始化在线播放列表
     this->player->setPlaylist(this->playlist);
     this->initOnlineList();
-    //修改播放模式为随机
+
+    //此处有bug，未解决
+    //修改本地播放模式为随机,当播放结束自动使用此播放模式进行播放下一首
     this->playlist->setPlaybackMode(QMediaPlaylist::Random);
+    //修改在线列表播放为单曲循环
+    this->onlinePlaylist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+
+
     //给QMediaPlayer绑定信号与槽,去计算进度条
     connect(this->player,&QMediaPlayer::durationChanged,this,&MusicWindow::durationChanged);
     connect(this->player,&QMediaPlayer::positionChanged,this,&MusicWindow::positionChanged);
@@ -81,12 +88,13 @@ void MusicWindow::on_btn_quit_clicked()
 }
 //歌词解析函数
 void MusicWindow::parseLyrics(const QString &musicPath)
-{   // 设置歌词背景
+{
+    lyrics.clear();
+    // 设置歌词背景
     setLyricsBackground(musicPath);
     lyrics.clear();
     QString lyricPath = musicPath.left(musicPath.lastIndexOf('.')) + ".lrc";
     QFile lyricFile(lyricPath);
-
     if(!lyricFile.open(QIODevice::ReadOnly | QIODevice::Text)){
         lyricModel->setStringList({"<无歌词文件>"});
         return;
@@ -241,7 +249,7 @@ void MusicWindow::on_btn_file_clicked()
 
 //上一首
 void MusicWindow::on_btn_prev_clicked()
-{
+{   if(player->playlist()==playlist){//判断是在线列表还是本地列表
     //1 获取当前播放列表的索引
     int index=this->playlist->currentIndex();
     //2.index--
@@ -255,13 +263,29 @@ void MusicWindow::on_btn_prev_clicked()
     this->playlist->setCurrentIndex(index);
     //给页面上的列表设置当前索引，列表选中歌曲
     ui->list_local->setCurrentRow(index);
+    //歌词设置
     parseLyrics(playlist->currentMedia().request().url().toLocalFile());
-    setLyricsBackground(playlist->currentMedia().request().url().toLocalFile());
+    //背景设置
+    setLyricsBackground(playlist->currentMedia().request().url().toLocalFile());}
+    else{
+        int index = onlinePlaylist->currentIndex();
+        if (index == 0) {
+            index = onlinePlaylist->mediaCount() - 1;
+        } else {
+            index--;
+        }
+       this->onlinePlaylist->setCurrentIndex(index);
+       ui->list_online->setCurrentRow(index);
+       //歌词设置
+       parseLyrics(onlinePlaylist->currentMedia().request().url().toLocalFile());
+       //背景设置
+       setLyricsBackground(onlinePlaylist->currentMedia().request().url().toLocalFile());
+    }
 }
 
 //下一首
 void MusicWindow::on_btn_next_clicked()
-{
+{   if(player->playlist()==playlist){
     //1 获取当前播放列表的索引
     int index=this->playlist->currentIndex();
     //2.index--
@@ -276,11 +300,28 @@ void MusicWindow::on_btn_next_clicked()
     //给页面上的列表设置当前索引，列表选中歌曲
     ui->list_local->setCurrentRow(index);
     parseLyrics(playlist->currentMedia().request().url().toLocalFile());
-    setLyricsBackground(playlist->currentMedia().request().url().toLocalFile());
+    setLyricsBackground(playlist->currentMedia().request().url().toLocalFile());}
+    else{
+        //1 获取当前播放列表的索引
+        int index=this->onlinePlaylist->currentIndex();
+        //2.index--
+        //判断如果是最后一首，要跳转到其他歌曲
+        if(index==this->onlinePlaylist->mediaCount()-1){
+            index=0;
+        }else{
+            index++;
+        }
+        //3 重新给播放列表设置当前索引
+        this->onlinePlaylist->setCurrentIndex(index);
+        //给页面上的列表设置当前索引，列表选中歌曲
+        ui->list_online->setCurrentRow(index);
+        parseLyrics(onlinePlaylist->currentMedia().request().url().toLocalFile());
+        setLyricsBackground(onlinePlaylist->currentMedia().request().url().toLocalFile());
+    }
 }
 
 void MusicWindow::on_list_local_itemDoubleClicked(QListWidgetItem *item)
-{
+{   this->player->setPlaylist(playlist);//放在第一行，当双击列表时切换到本地列表
     int index=ui->list_local->currentRow();
     this->playlist->setCurrentIndex(index);
     this->player->play();
@@ -367,17 +408,63 @@ void MusicWindow::showOnlineList(QNetworkReply *reply)
     //解析Json文件
     QJsonDocument doc=QJsonDocument::fromJson(data);
     QJsonArray array=doc.array();
+    // 清空在线列表，避免重复加载
+    ui->list_online->clear();
     for(int i=0;i<array.size();i++){
         QJsonObject obj=array.at(i).toObject();
         QString name= obj.value("name").toString();
         QString path=obj.value("path").toString();
         QString lrcPath=obj.value("lrcPath").toString();
+        QString coverPath=obj.value("coverPath").toString();
+
+        //存储歌词和封面信息
+        onlineLyricMap[path] = lrcPath;
+        onlineCoverMap[path] = coverPath;
+        //添加到在线列表
         ui->list_online->addItem(name);
-        this->playlist->addMedia(QMediaContent(QUrl(path)));
+        this->onlinePlaylist->addMedia(QMediaContent(QUrl(path)));
     }
 }
 
 
+void MusicWindow::on_list_online_itemDoubleClicked(QListWidgetItem *item)
+{   this->player->setPlaylist(onlinePlaylist);  // 切换到在线播放列表
+    int index = ui->list_online->row(item); // 获取双击行的索引
+    if (index == -1) return;
 
+    // 获取在线音乐文件路径
+    QMediaContent media = onlinePlaylist->media(index);
+    QString path = media.request().url().toString();
 
+    // 检查路径是否有效
+    if (path.isEmpty()) {
+        qDebug() << "无法播放在线音乐: 路径为空";
+        return;
+    }
 
+    // 播放在线音乐
+    this->onlinePlaylist->setCurrentIndex(index);
+    this->player->play();
+
+    // 切换播放按钮的模式
+    ui->btn_play->setProperty("mode", "play");
+    ui->btn_play->style()->unpolish(ui->btn_play);
+    ui->btn_play->style()->polish(ui->btn_play);
+    ui->btn_play->update();
+
+    // 加载歌词和背景
+    QString lyricPath = onlineLyricMap.value(path, "");  // 从 onlineLyricMap 获取歌词路径
+    QString coverPath = onlineCoverMap.value(path, "");  // 从 onlineCoverMap 获取封面路径
+
+    if (!lyricPath.isEmpty()) {
+        parseLyrics(lyricPath);  // 加载歌词
+    } else {
+        lyricModel->setStringList({"<无歌词文件>"});  // 无歌词文件时
+    }
+
+    if (!coverPath.isEmpty()) {
+        setLyricsBackground(coverPath);  // 加载封面
+    } else {
+        ui->label_background->setPixmap(QPixmap("D:/music/找不到封面.jpg"));
+    }
+}

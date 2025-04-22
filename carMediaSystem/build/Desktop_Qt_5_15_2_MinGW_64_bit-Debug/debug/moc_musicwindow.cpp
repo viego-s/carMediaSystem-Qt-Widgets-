@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MusicWindow_t {
-    QByteArrayData data[20];
-    char stringdata0[339];
+    QByteArrayData data[21];
+    char stringdata0[372];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,7 +51,8 @@ QT_MOC_LITERAL(15, 253, 30), // "on_slider_voice_sliderReleased"
 QT_MOC_LITERAL(16, 284, 18), // "on_btn_del_clicked"
 QT_MOC_LITERAL(17, 303, 14), // "showOnlineList"
 QT_MOC_LITERAL(18, 318, 14), // "QNetworkReply*"
-QT_MOC_LITERAL(19, 333, 5) // "reply"
+QT_MOC_LITERAL(19, 333, 5), // "reply"
+QT_MOC_LITERAL(20, 339, 32) // "on_list_online_itemDoubleClicked"
 
     },
     "MusicWindow\0on_btn_quit_clicked\0\0"
@@ -63,7 +64,8 @@ QT_MOC_LITERAL(19, 333, 5) // "reply"
     "on_play_progress_bar_sliderReleased\0"
     "on_slider_voice_sliderReleased\0"
     "on_btn_del_clicked\0showOnlineList\0"
-    "QNetworkReply*\0reply"
+    "QNetworkReply*\0reply\0"
+    "on_list_online_itemDoubleClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,7 +75,7 @@ static const uint qt_meta_data_MusicWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -81,18 +83,19 @@ static const uint qt_meta_data_MusicWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x08 /* Private */,
-       3,    0,   75,    2, 0x08 /* Private */,
-       4,    0,   76,    2, 0x08 /* Private */,
-       5,    0,   77,    2, 0x08 /* Private */,
-       6,    0,   78,    2, 0x08 /* Private */,
-       7,    1,   79,    2, 0x08 /* Private */,
-      10,    1,   82,    2, 0x08 /* Private */,
-      12,    1,   85,    2, 0x08 /* Private */,
-      14,    0,   88,    2, 0x08 /* Private */,
-      15,    0,   89,    2, 0x08 /* Private */,
-      16,    0,   90,    2, 0x08 /* Private */,
-      17,    1,   91,    2, 0x08 /* Private */,
+       1,    0,   79,    2, 0x08 /* Private */,
+       3,    0,   80,    2, 0x08 /* Private */,
+       4,    0,   81,    2, 0x08 /* Private */,
+       5,    0,   82,    2, 0x08 /* Private */,
+       6,    0,   83,    2, 0x08 /* Private */,
+       7,    1,   84,    2, 0x08 /* Private */,
+      10,    1,   87,    2, 0x08 /* Private */,
+      12,    1,   90,    2, 0x08 /* Private */,
+      14,    0,   93,    2, 0x08 /* Private */,
+      15,    0,   94,    2, 0x08 /* Private */,
+      16,    0,   95,    2, 0x08 /* Private */,
+      17,    1,   96,    2, 0x08 /* Private */,
+      20,    1,   99,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -107,6 +110,7 @@ static const uint qt_meta_data_MusicWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 18,   19,
+    QMetaType::Void, 0x80000000 | 8,    9,
 
        0        // eod
 };
@@ -129,6 +133,7 @@ void MusicWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 9: _t->on_slider_voice_sliderReleased(); break;
         case 10: _t->on_btn_del_clicked(); break;
         case 11: _t->showOnlineList((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
+        case 12: _t->on_list_online_itemDoubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -174,13 +179,13 @@ int MusicWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

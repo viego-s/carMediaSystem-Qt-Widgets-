@@ -38,7 +38,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
      <string notr="true">QTabBar::tab{height:30;width:100}</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_local">
      <attribute name="title">

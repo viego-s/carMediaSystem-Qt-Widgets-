@@ -47,15 +47,18 @@ private slots:
     void on_btn_del_clicked();
     void showOnlineList(QNetworkReply *reply);
 
+    void on_list_online_itemDoubleClicked(QListWidgetItem *item);
+
 private:
     Ui::MusicWindow *ui;
     QMediaPlayer *player;
-    QMediaPlaylist *playlist;
+    QMediaPlaylist *playlist;//本地列表
+    QMediaPlaylist *onlinePlaylist;//在线列表
     int total;
     QMap<qint64, QString> lyrics;
     QStringListModel *lyricModel;
     void parseLyrics(const QString &musicPath);//歌词分析
-    void setLyricsBackground(const QString &musicPath);//封面
+    void setLyricsBackground(const QString &coverPath);//封面
     QLabel *label_background;
 
     //数据库
@@ -64,6 +67,10 @@ private:
     void addToDatabase(const QString &path); // 添加到数据库
     void deleteFromDatabase(int index); // 从数据库删除
     QSqlDatabase db;            // 数据库连接
+
+    //在线列表
+    QMap<QString, QString> onlineLyricMap; // 存储在线歌曲歌词路径 <音乐路径, 歌词URL>
+    QMap<QString, QString> onlineCoverMap; // 存储在线歌曲封面路径 <音乐路径, 封面URL>
 
 };
 
