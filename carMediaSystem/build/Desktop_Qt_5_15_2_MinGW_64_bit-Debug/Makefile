@@ -261,6 +261,7 @@ Makefile: ../../carMediaSystem.pro C:/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qma
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5QmlModels.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5Qml.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5Network.prl \
+		C:/Qt/5.15.2/mingw81_64/lib/Qt5Sql.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/qtmain.prl \
 		.qmake.stash \
@@ -458,6 +459,7 @@ C:/Qt/5.15.2/mingw81_64/lib/Qt5Gui.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5QmlModels.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5Qml.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5Network.prl:
+C:/Qt/5.15.2/mingw81_64/lib/Qt5Sql.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl:
 C:/Qt/5.15.2/mingw81_64/lib/qtmain.prl:
 .qmake.stash:

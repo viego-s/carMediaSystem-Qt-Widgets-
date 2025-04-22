@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>963</width>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,6 +33,9 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
       <width>201</width>
       <height>481</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTabBar::tab{height:30;width:100}</string>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -72,7 +75,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>520</y>
+      <y>540</y>
       <width>51</width>
       <height>51</height>
      </rect>
@@ -89,7 +92,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
      <rect>
       <x>0</x>
       <y>490</y>
-      <width>801</width>
+      <width>961</width>
       <height>22</height>
      </rect>
     </property>
@@ -101,7 +104,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>530</y>
+      <y>550</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -117,7 +120,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>530</y>
+      <y>550</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -133,7 +136,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>510</y>
+      <y>550</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -149,7 +152,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>540</y>
+      <y>560</y>
       <width>160</width>
       <height>22</height>
      </rect>
@@ -161,7 +164,7 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
    <widget class="QPushButton" name="btn_quit">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>880</x>
       <y>550</y>
       <width>31</width>
       <height>31</height>
@@ -178,26 +181,25 @@ QPushButton#btn_play[mode='play']{border-image:url(:/image/player/pause.svg);}
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>30</y>
-      <width>601</width>
-      <height>451</height>
+      <y>10</y>
+      <width>761</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QListView {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,0.1);
         border-radius: 12px;
         padding: 20px 0;
         font-family: &quot;Microsoft YaHei&quot;;
-      font-size: 16px;
+      font-size: 20px;
         outline: none;
     }
     
     QListView::item {
         height: 50px;
 qproperty-alignment: AlignCenter;
-        color: black;
-        background: transparent;
+        color: white;
         border: none;
         text-align: center;
     }
@@ -205,7 +207,7 @@ qproperty-alignment: AlignCenter;
     QListView::item:selected {
         color: #e74c3c;
         background: rgba(231, 76, 60, 0.1);
-        font-size: 20px;
+        font-size: 24px;
         font-weight: bold;
         border-radius: 8px;
     }
@@ -221,6 +223,43 @@ qproperty-alignment: AlignCenter;
     }</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_background">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>10</y>
+      <width>761</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_del">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>550</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+   </widget>
+   <zorder>label_background</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>btn_play</zorder>
+   <zorder>play_progress_bar</zorder>
+   <zorder>btn_prev</zorder>
+   <zorder>btn_next</zorder>
+   <zorder>btn_file</zorder>
+   <zorder>slider_voice</zorder>
+   <zorder>btn_quit</zorder>
+   <zorder>lyricView</zorder>
+   <zorder>btn_del</zorder>
   </widget>
  </widget>
  <resources/>

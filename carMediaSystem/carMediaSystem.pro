@@ -1,5 +1,5 @@
 QT       += core gui network
-QT +=quick quickwidgets  multimedia
+QT +=quick quickwidgets  multimedia sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

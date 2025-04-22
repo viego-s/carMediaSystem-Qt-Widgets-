@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QListView>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
@@ -38,12 +39,14 @@ public:
     QSlider *slider_voice;
     QPushButton *btn_quit;
     QListView *lyricView;
+    QLabel *label_background;
+    QPushButton *btn_del;
 
     void setupUi(QMainWindow *MusicWindow)
     {
         if (MusicWindow->objectName().isEmpty())
             MusicWindow->setObjectName(QString::fromUtf8("MusicWindow"));
-        MusicWindow->resize(800, 600);
+        MusicWindow->resize(963, 631);
         MusicWindow->setStyleSheet(QString::fromUtf8("centralwidget{color: rgb(255, 235, 217);}\n"
 "\n"
 "QPushButton#btn_play[mode='pause']{border-image:url()}"));
@@ -56,6 +59,7 @@ public:
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setGeometry(QRect(0, 0, 201, 481));
+        tabWidget->setStyleSheet(QString::fromUtf8("QTabBar::tab{height:30;width:100}"));
         tab_local = new QWidget();
         tab_local->setObjectName(QString::fromUtf8("tab_local"));
         list_local = new QListWidget(tab_local);
@@ -70,49 +74,48 @@ public:
         tabWidget->addTab(tab_online, QString());
         btn_play = new QPushButton(centralwidget);
         btn_play->setObjectName(QString::fromUtf8("btn_play"));
-        btn_play->setGeometry(QRect(370, 520, 51, 51));
+        btn_play->setGeometry(QRect(370, 540, 51, 51));
         btn_play->setStyleSheet(QString::fromUtf8(""));
         play_progress_bar = new QSlider(centralwidget);
         play_progress_bar->setObjectName(QString::fromUtf8("play_progress_bar"));
-        play_progress_bar->setGeometry(QRect(0, 490, 801, 22));
+        play_progress_bar->setGeometry(QRect(0, 490, 961, 22));
         play_progress_bar->setOrientation(Qt::Horizontal);
         btn_prev = new QPushButton(centralwidget);
         btn_prev->setObjectName(QString::fromUtf8("btn_prev"));
-        btn_prev->setGeometry(QRect(310, 530, 31, 31));
+        btn_prev->setGeometry(QRect(310, 550, 31, 31));
         btn_prev->setStyleSheet(QString::fromUtf8("border-image: url(:/image/player/next.svg);"));
         btn_next = new QPushButton(centralwidget);
         btn_next->setObjectName(QString::fromUtf8("btn_next"));
-        btn_next->setGeometry(QRect(440, 530, 31, 31));
+        btn_next->setGeometry(QRect(440, 550, 31, 31));
         btn_next->setStyleSheet(QString::fromUtf8("border-image: url(:/image/player/prev.svg);"));
         btn_file = new QPushButton(centralwidget);
         btn_file->setObjectName(QString::fromUtf8("btn_file"));
-        btn_file->setGeometry(QRect(750, 510, 31, 31));
+        btn_file->setGeometry(QRect(750, 550, 31, 31));
         btn_file->setStyleSheet(QString::fromUtf8("border-image: url(:/image/player/file.svg);"));
         slider_voice = new QSlider(centralwidget);
         slider_voice->setObjectName(QString::fromUtf8("slider_voice"));
-        slider_voice->setGeometry(QRect(510, 540, 160, 22));
+        slider_voice->setGeometry(QRect(510, 560, 160, 22));
         slider_voice->setOrientation(Qt::Horizontal);
         btn_quit = new QPushButton(centralwidget);
         btn_quit->setObjectName(QString::fromUtf8("btn_quit"));
-        btn_quit->setGeometry(QRect(750, 550, 31, 31));
+        btn_quit->setGeometry(QRect(880, 550, 31, 31));
         btn_quit->setStyleSheet(QString::fromUtf8("border-image: url(:/image/player/back.svg);"));
         lyricView = new QListView(centralwidget);
         lyricView->setObjectName(QString::fromUtf8("lyricView"));
-        lyricView->setGeometry(QRect(200, 30, 601, 451));
+        lyricView->setGeometry(QRect(200, 10, 761, 471));
         lyricView->setStyleSheet(QString::fromUtf8("QListView {\n"
-"        background: rgba(255, 255, 255, 0.1);\n"
+"        background: rgba(255,255,255,0.1);\n"
 "        border-radius: 12px;\n"
 "        padding: 20px 0;\n"
 "        font-family: \"Microsoft YaHei\";\n"
-"      font-size: 16px;\n"
+"      font-size: 20px;\n"
 "        outline: none;\n"
 "    }\n"
 "    \n"
 "    QListView::item {\n"
 "        height: 50px;\n"
 "qproperty-alignment: AlignCenter;\n"
-"        color: black;\n"
-"        background: transparent;\n"
+"        color: white;\n"
 "        border: none;\n"
 "        text-align: center;\n"
 "    }\n"
@@ -120,7 +123,7 @@ public:
 "    QListView::item:selected {\n"
 "        color: #e74c3c;\n"
 "        background: rgba(231, 76, 60, 0.1);\n"
-"        font-size: 20px;\n"
+"        font-size: 24px;\n"
 "        font-weight: bold;\n"
 "        border-radius: 8px;\n"
 "    }\n"
@@ -134,7 +137,24 @@ public:
 "        background: rgba(231, 76, 60, 0.6);\n"
 "        border-radius: 4px;\n"
 "    }"));
+        label_background = new QLabel(centralwidget);
+        label_background->setObjectName(QString::fromUtf8("label_background"));
+        label_background->setGeometry(QRect(200, 10, 761, 471));
+        btn_del = new QPushButton(centralwidget);
+        btn_del->setObjectName(QString::fromUtf8("btn_del"));
+        btn_del->setGeometry(QRect(110, 550, 93, 28));
         MusicWindow->setCentralWidget(centralwidget);
+        label_background->raise();
+        tabWidget->raise();
+        btn_play->raise();
+        play_progress_bar->raise();
+        btn_prev->raise();
+        btn_next->raise();
+        btn_file->raise();
+        slider_voice->raise();
+        btn_quit->raise();
+        lyricView->raise();
+        btn_del->raise();
 
         retranslateUi(MusicWindow);
 
@@ -154,6 +174,8 @@ public:
         btn_next->setText(QString());
         btn_file->setText(QString());
         btn_quit->setText(QString());
+        label_background->setText(QString());
+        btn_del->setText(QCoreApplication::translate("MusicWindow", "\345\210\240\351\231\244", nullptr));
     } // retranslateUi
 
 };
