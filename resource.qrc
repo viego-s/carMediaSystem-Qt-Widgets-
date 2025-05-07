@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/map.svg</file>
+        <file>image/music.svg</file>
+        <file>image/video.svg</file>
+        <file>image/weather.svg</file>
+        <file>image/weather/weather_background.jpg</file>
+        <file>image/back.svg</file>
+        <file>image/weather/bingbao.png</file>
+        <file>image/weather/lei.png</file>
+        <file>image/weather/qing.png</file>
+        <file>image/weather/shachen.png</file>
+        <file>image/weather/wu.png</file>
+        <file>image/weather/xue.png</file>
+        <file>image/weather/yin.png</file>
+        <file>image/weather/yu.png</file>
+        <file>image/weather/yun.png</file>
+        <file>image/33857552_140701783106_2.jpg</file>
+        <file>image/player/next.svg</file>
+        <file>image/player/pause.svg</file>
+        <file>image/player/play.svg</file>
+        <file>image/player/prev.svg</file>
+        <file>image/player/file.svg</file>
+        <file>image/player/back.svg</file>
+        <file>image/fullscreen.svg</file>
+        <file>image/Map.jpg</file>
+        <file>image/enlarge.svg</file>
+        <file>image/reduce.svg</file>
+        <file>image/back-blue.svg</file>
+        <file>image/map/big.png</file>
+        <file>image/map/map_background.jpg</file>
+        <file>image/map/small.png</file>
+        <file>image/map/zoom_m.png</file>
+        <file>image/map/zoom_p.png</file>
+        <file>image/map/navigate.svg</file>
+        <file>image/default_cover.jpg</file>
+        <file>image/player/del.svg</file>
+        <file>image/player/mode_loop.svg</file>
+        <file>image/player/mode_random.svg</file>
+        <file>image/player/mode_sequential.svg</file>
+        <file>image/player/mode_single.svg</file>
+    </qresource>
+</RCC>
