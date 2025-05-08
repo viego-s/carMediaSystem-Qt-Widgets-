@@ -215,7 +215,7 @@ void MusicWindow::parseLyrics(const QString &musicPathOrUrl) {
         lyricFile.close();
     }
 }
-
+//背景设置函数
 void MusicWindow::setLyricsBackground(const QString &coverPathOrUrl) {
     // 取消之前的封面请求
     if (currentCoverReply) {
@@ -288,7 +288,7 @@ void MusicWindow::setLyricsBackground(const QString &coverPathOrUrl) {
         }
     }
 }
-
+//数据库初始化
 void MusicWindow::initDatabase()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -306,7 +306,7 @@ void MusicWindow::initDatabase()
                "file_path TEXT UNIQUE NOT NULL, "
                "file_name TEXT NOT NULL)");
 }
-
+//从数据库加载数据
 void MusicWindow::loadFromDatabase()
 {
     QSqlQuery query("SELECT file_path, file_name FROM t_music");
@@ -318,7 +318,7 @@ void MusicWindow::loadFromDatabase()
         ui->list_local->addItem(name);
     }
 }
-
+//添加数据到数据库
 void MusicWindow::addToDatabase(const QString &path)
 {
     QFileInfo file(path);
@@ -328,6 +328,7 @@ void MusicWindow::addToDatabase(const QString &path)
     query.addBindValue(file.fileName());
     query.exec();
 }
+//播放按钮
 void MusicWindow::on_btn_play_clicked()
 {
     QString mode=ui->btn_play->property("mode").toString() ;
@@ -348,8 +349,7 @@ void MusicWindow::on_btn_play_clicked()
     //背景设置
     setLyricsBackground(playlist->currentMedia().request().url().toLocalFile());
 }
-
-
+//文件添加按钮
 void MusicWindow::on_btn_file_clicked()
 {
     QStringList files=QFileDialog::getOpenFileNames(this,"选择音乐文件","D:/music","Audios(*.mp3)");
@@ -413,7 +413,7 @@ void MusicWindow::on_btn_next_clicked()
     }
     updateLyricsAndCover();
 }
-// 新增辅助函数
+// 辅助函数，更新歌词与背景
 void MusicWindow::updateLyricsAndCover()
 {
     if (player->playlist() == playlist) {
@@ -426,9 +426,10 @@ void MusicWindow::updateLyricsAndCover()
         setLyricsBackground(onlineCoverMap.value(path, ""));
     }
 }
+//本地列表双击
 void MusicWindow::on_list_local_itemDoubleClicked(QListWidgetItem *item)
 {   this->player->setPlaylist(playlist);//放在第一行，当双击列表时切换到本地列表
-    int index=ui->list_local->currentRow();
+    int index = ui->list_local->row(item);
     this->playlist->setCurrentIndex(index);
     this->player->play();
     ui->btn_play->setProperty("mode","play");
@@ -442,7 +443,6 @@ void MusicWindow::on_list_local_itemDoubleClicked(QListWidgetItem *item)
     //更新列表切换时的按钮显示
     updatePlayModeButton();
 }
-
 
 //获取当前播放歌曲的总长度
 void MusicWindow::durationChanged(qint64 duration)
@@ -479,9 +479,7 @@ void MusicWindow::positionChanged(qint64 position)
         }
     }
 }
-
-
-
+//进度条
 void MusicWindow::on_play_progress_bar_sliderReleased()
 {
     int value=ui->play_progress_bar->value();
@@ -489,14 +487,13 @@ void MusicWindow::on_play_progress_bar_sliderReleased()
     player->setPosition(position);
 
 }
-
-
+//音量条
 void MusicWindow::on_slider_voice_sliderReleased()
 {
     int value=ui->slider_voice->value();
     this->player->setVolume(value);
 }
-
+//删除按钮
 void MusicWindow::on_btn_del_clicked()
 {
     int index = ui->list_local->currentRow();
@@ -512,11 +509,20 @@ void MusicWindow::on_btn_del_clicked()
     query.addBindValue(path);
     query.exec();
 
-    // 从播放列表和界面删除
+    // 先删除播放列表中的媒体
+    playlist->blockSignals(true); // 阻止信号干扰
     playlist->removeMedia(index);
+    playlist->blockSignals(false);
+
+    // 再删除UI列表项
     delete ui->list_local->takeItem(index);
+
+    // 强制刷新播放列表索引
+    if (playlist->currentIndex() == index) {
+        player->stop();
+    }
 }
-//在线列表
+//在线列表展示
 void MusicWindow::showOnlineList(QNetworkReply *reply)
 {
     QByteArray data=reply->readAll();
@@ -546,8 +552,7 @@ void MusicWindow::showOnlineList(QNetworkReply *reply)
     }
     reply->deleteLater();
 }
-
-
+//双击在线列表
 void MusicWindow::on_list_online_itemDoubleClicked(QListWidgetItem *item)
 {   this->player->setPlaylist(onlinePlaylist);  // 切换到在线播放列表
     updatePlayModeButton();
@@ -591,7 +596,7 @@ void MusicWindow::on_list_online_itemDoubleClicked(QListWidgetItem *item)
         ui->label_background->setPixmap(QPixmap("D:/music/default_cover.jpg"));
     }
 }
-
+//播放模式按钮
 void MusicWindow::on_btn_mode_clicked()
 {
     // 获取当前播放列表
